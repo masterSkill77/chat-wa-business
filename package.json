@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/masterSkill77/chat-wa-business#readme",
   "dependencies": {
+    "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

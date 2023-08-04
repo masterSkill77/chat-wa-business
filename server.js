@@ -9,16 +9,20 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const bodyParser = require('body-parser');
+const ChatGPT = require('./src/chat-gpt');
 const app = require('express')();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/message', (req, res) => {
+app.post('/message', async (req, res) => {
 	const whatsAppBody = req.body;
 
 	const message = whatsAppBody.Body;
+
+	const response = await ChatGPT().chat(message);
+
 	const twiml = new MessagingResponse();
-	twiml.message(message);
+	twiml.message(response);
 	res.type('text/xml').send(twiml.toString());
 });
 

@@ -13,15 +13,16 @@ module.exports = () => {
 		Authorization: `Bearer ${configuration.apiKey}`,
 	};
 
-	const chat = async (newMessage) => {
+	const chat = async (to, newMessage) => {
+		if (!messages[to]) messages[to] = [];
 		const message = {
 			role: 'user',
 			content: newMessage,
 		};
-		messages.push(message);
+		messages[to].push(message);
 		const body = {
 			model: 'gpt-3.5-turbo',
-			messages,
+			messages: messages[to],
 		};
 		return await axios
 			.post(
@@ -34,8 +35,7 @@ module.exports = () => {
 				}
 			)
 			.then(({ data }) => {
-				messages.push(data.choices[0].message);
-				console.log(body);
+				messages[to].push(data.choices[0].message);
 				return data.choices[0].message.content;
 			})
 			.catch((e) => {

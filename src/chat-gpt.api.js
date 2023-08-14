@@ -13,16 +13,19 @@ module.exports = () => {
 		Authorization: `Bearer ${configuration.apiKey}`,
 	};
 
-	const chat = async (to, newMessage) => {
-		if (!messages[to]) messages[to] = [];
+	const chat = async (to, newMessage, waAccount) => {
+		if (!messages[waAccount.businessName]) {
+			messages[waAccount.businessName] = [];
+			messages[waAccount.businessName][to] = [];
+		}
 		const message = {
 			role: 'user',
 			content: newMessage,
 		};
-		messages[to].push(message);
+		messages[waAccount.businessName][to].push(message);
 		const body = {
 			model: 'gpt-3.5-turbo',
-			messages: messages[to],
+			messages: messages[waAccount.businessName][to],
 		};
 		return await axios
 			.post(
@@ -35,7 +38,7 @@ module.exports = () => {
 				}
 			)
 			.then(({ data }) => {
-				messages[to].push(data.choices[0].message);
+				messages[waAccount.businessName][to].push(data.choices[0].message);
 				return data.choices[0].message.content;
 			})
 			.catch((e) => {

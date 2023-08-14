@@ -1,10 +1,16 @@
 const Account = require('../entities/Account.entity');
 
-const addBusiness = async (businessName, businessApi, businessNumber) => {
+const addBusiness = async (
+	businessName,
+	businessApi,
+	businessNumberID,
+	businessPhoneNumber
+) => {
 	return await Account.create({
 		businessApi,
 		businessName,
-		businessNumber,
+		businessNumberID,
+		businessPhoneNumber,
 	});
 };
 
@@ -16,10 +22,10 @@ const getBusinessById = async (businessId) => {
 	}).then((data) => data);
 };
 
-const getBusinessByPhoneNumber = async (businessNumber) => {
+const getBusinessByPhoneNumber = async (businessPhoneNumber) => {
 	return await Account.findOne({
 		where: {
-			businessNumber,
+			businessPhoneNumber,
 		},
 	}).then((data) => data);
 };

@@ -3,13 +3,11 @@
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const webhooksController = require('./src/controllers/webhooks.controller');
-const accountController = require('./src/controllers/account.controller');
 const app = require('express')();
 
 app.use(bodyParser.json());
 
 app.use('/message', webhooksController);
-app.use('/account', accountController);
 app.get('/verify', async (req, res) => {
 	const queries = JSON.stringify(req.query).split(',');
 	let challenge = queries[1].split(':')[1];

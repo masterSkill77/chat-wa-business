@@ -3,7 +3,6 @@
 const messageService = require('../services/message.service')();
 
 const webhooksController = require('express').Router();
-let i = 0;
 webhooksController.post('/', async (req, res) => {
 	const response = req.body.entry[0].changes[0].value;
 	if (response.messages) {
